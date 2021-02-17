@@ -4,34 +4,19 @@ import com.ebookclub.ebookclub.dto.BookDto;
 import com.ebookclub.ebookclub.model.Book;
 import com.ebookclub.ebookclub.model.Genre;
 import com.ebookclub.ebookclub.model.User;
-import com.ebookclub.ebookclub.repo.BookRepo;
 import com.ebookclub.ebookclub.repo.GenreRepo;
-import com.ebookclub.ebookclub.repo.RatingRepo;
 import com.ebookclub.ebookclub.repo.UserRepo;
-import com.ebookclub.ebookclub.security.LoginUser;
-import mockit.MockUp;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Optional;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -73,7 +58,7 @@ public class BookServiceIntegrationTest {
     @Test
     public void getBooksList() {
         PageRequest pageRequest = PageRequest.of(1, 10);
-        assertThat(bookService.getBooksList(pageRequest).size(),is(0));
+        assertThat(bookService.getBooksList().size(),is(0));
 
 
     }
@@ -128,7 +113,7 @@ public class BookServiceIntegrationTest {
         Book book =bookService.createBook(bookDto,user.getId());
         bookService.deleteBook(book.getId(), user);
         PageRequest pageRequest = PageRequest.of(1, 10);
-        assertThat(bookService.getBooksList(pageRequest).size(),is(0));
+        assertThat(bookService.getBooksList().size(),is(0));
 
     }
 }

@@ -8,10 +8,7 @@ import com.ebookclub.ebookclub.repo.BookRepo;
 import com.ebookclub.ebookclub.repo.GenreRepo;
 import com.ebookclub.ebookclub.repo.RatingRepo;
 import com.ebookclub.ebookclub.repo.UserRepo;
-import com.ebookclub.ebookclub.security.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,13 +33,11 @@ public class BookService {
 
     /**
      *
-     * @param pageable
      * @return list of found books
      */
-    public List<Book> getBooksList(
-            Pageable pageable) {
-        Page<Book> books = bookRepo.findAll(pageable);
-        return books.getContent();
+    public List<Book> getBooksList() {
+        List<Book> books = bookRepo.findAll();
+        return books;
     }
 
     /**

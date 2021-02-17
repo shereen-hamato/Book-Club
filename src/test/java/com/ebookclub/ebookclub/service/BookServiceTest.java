@@ -82,7 +82,7 @@ public class BookServiceTest {
         Pageable pageable = mock(Pageable.class);
         Page page = mock(Page.class);
         when(bookRepo.findAll(pageable)).thenReturn(page);
-        assertThat(bookService.getBooksList(pageable),is(page.getContent()));
+        assertThat(bookService.getBooksList(),is(page.getContent()));
 
 
     }

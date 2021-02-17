@@ -43,9 +43,9 @@ public class RatingController {
     @GetMapping
     public List<RatingDto> getAllRatingsForBook(@PathVariable(value = "bookId") int bookId, Pageable pageable) {
         LOGGER.info("GET /ratings/{}", bookId);
-        Page<Rating> ratingPage = ratingService.lookupRatings(bookId, pageable);
+        List<Rating> ratingPage = ratingService.lookupRatings(bookId);
 
-        return ratingPage.getContent().stream().map(this::convertToDto).collect(Collectors.toList());
+        return ratingPage.stream().map(this::convertToDto).collect(Collectors.toList());
     }
 
     /**

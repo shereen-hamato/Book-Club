@@ -37,8 +37,8 @@ public class BookController {
 
     @GetMapping
     @ResponseBody
-    public List<BookDto> getBooks(Pageable pageable) {
-        List<Book> books = bookService.getBooksList(pageable);
+    public List<BookDto> getBooks() {
+        List<Book> books = bookService.getBooksList();
         return books.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
@@ -50,10 +50,7 @@ public class BookController {
     @ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
     public BookDto createBook(@RequestBody @Validated BookDto bookDto) {
         LOGGER.info("User {} CREATE /book",  LoginUser.get().getUsername());
-        System.out.println(LoginUser.get().getId());
-        System.out.println(bookDto.getAuthor());
         Book book = bookService.createBook(bookDto, LoginUser.get().getId());
-        //System.out.println(book.getAuthor());
         return convertToDto(book);
     }
 

@@ -66,9 +66,9 @@ public class RatingService {
      * @return Page of BookRatings
      * @throws NoSuchElementException if no Book found.
      */
-    public Page<Rating> lookupRatings(int bookId, Pageable pageable) throws NoSuchElementException {
+    public List<Rating> lookupRatings(int bookId) throws NoSuchElementException {
         LOGGER.info("Lookup Rating for book {}", bookId);
-        return ratingRepo.findByBookId(bookService.verifyBook(bookId).getId(), pageable);
+        return ratingRepo.findByBookId(bookService.verifyBook(bookId).getId());
     }
 
     /**
