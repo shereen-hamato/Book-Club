@@ -19,8 +19,14 @@ public class LoginUser {
         return loginUser;
     }
 
-    protected void set(User user) {
+    protected static void set(User user) {
         loginUser=user;
     }
+
+    protected static void reset() {
+        loginUser=null;
+    }
+
+
 
 }

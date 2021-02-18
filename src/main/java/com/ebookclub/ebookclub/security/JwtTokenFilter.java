@@ -25,12 +25,9 @@ public class JwtTokenFilter extends GenericFilterBean {
 
     private EBookClubUserDetailsService userDetailsService;
 
-    private LoginUser loginUser;
 
-
-    public JwtTokenFilter(EBookClubUserDetailsService userDetailsService, LoginUser loginUser ) {
+    public JwtTokenFilter(EBookClubUserDetailsService userDetailsService ) {
         this.userDetailsService = userDetailsService;
-        this.loginUser= loginUser;
     }
 
     /**
@@ -50,20 +47,16 @@ public class JwtTokenFilter extends GenericFilterBean {
 
         String headerValue = ((HttpServletRequest)req).getHeader("Authorization");
             //Pull the Username  from the JWT to construct the user details
-        loginUser.set(null);
+        LoginUser.reset();
+
         if(headerValue!=null)
         {
-            userDetailsService.loadUserByJwtToken(headerValue).ifPresent(userDetails -> {
-                //Add the user details (Permissions) to the Context for just this API invocation
-                SecurityContextHolder.getContext().setAuthentication(
-                        new PreAuthenticatedAuthenticationToken(userDetails, "", userDetails.getAuthorities()));
-                loginUser.set(userDetailsService.getLoginUser(headerValue));
+            userDetailsService.getLoginUser(headerValue).ifPresent(user -> {
+               LoginUser.set(user);
                 LOGGER.info("Current Logged user {} ",LoginUser.get().getUsername());
             });
 
         }
-
-
 
         filterChain.doFilter(req, res);
     }

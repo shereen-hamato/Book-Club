@@ -37,33 +37,16 @@ public class EBookClubUserDetailsService implements UserDetailsService {
             .build();
     }
 
-    /**
-     * Extract username from a validated jwt string.
-     *
-     * @param jwtToken jwt string
-     * @return UserDetails if valid, Empty otherwise
-     */
-    public Optional<UserDetails> loadUserByJwtToken(String jwtToken) {
-        if (jwtProvider.isValidToken(jwtToken)) {
-            return Optional.of(
-                withUsername(jwtProvider.getUsername(jwtToken))
-                .authorities(new ArrayList<>())
-                .password("") //token does not have password but field may not be empty
-                .accountExpired(false)
-                .accountLocked(false)
-                .credentialsExpired(false)
-                .disabled(false)
-                .build());
-        }
-        return Optional.empty();
-    }
 
-    public User getLoginUser(String jwtToken) throws UsernameNotFoundException {
-        String userName = jwtProvider.getUsername(jwtToken);
+    public Optional<User> getLoginUser(String jwtToken) throws UsernameNotFoundException {
+
+        if (jwtProvider.isValidToken(jwtToken)) {String userName = jwtProvider.getUsername(jwtToken);
         User user = userRepository.findByUsername(userName).orElseThrow(() ->
                 new UsernameNotFoundException(String.format("User with name %s does not exist", userName)));
 
-        return user;
+        return Optional.of(user);
+        }
+        return Optional.empty();
     }
 
 }
