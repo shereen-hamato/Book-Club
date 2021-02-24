@@ -28,7 +28,7 @@ public class GenreController {
     private ModelMapper modelMapper;
 
     @GetMapping
-    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
     public List<GenreDto> getGenres() {
         List<Genre> genres = new ArrayList<>();
         genreRepo.findAll().forEach(genre -> genres.add(genre));

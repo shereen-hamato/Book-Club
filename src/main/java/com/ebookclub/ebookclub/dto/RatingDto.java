@@ -20,9 +20,6 @@ public class RatingDto {
     @Value("false")
     private Boolean read;
 
-    @NotNull()
-    private Integer rankerId;
-
 
 
     public Integer getRank() {
@@ -39,14 +36,6 @@ public class RatingDto {
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    public Integer getRankerId() {
-        return rankerId;
-    }
-
-    public void setRankerId(Integer rankerId) {
-        this.rankerId = rankerId;
     }
 
     public Boolean getRead() {

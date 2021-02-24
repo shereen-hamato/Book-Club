@@ -11,7 +11,6 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +35,7 @@ public class BookController {
     private ModelMapper modelMapper;
 
     @GetMapping
-    @ResponseBody
+    @ResponseStatus(HttpStatus.OK)
     public List<BookDto> getBooks() {
         List<Book> books = bookService.getBooksList();
         return books.stream()
@@ -46,7 +45,6 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @ResponseBody
     @ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
     public BookDto createBook(@RequestBody @Validated BookDto bookDto) {
         LOGGER.info("User {} CREATE /book",  LoginUser.get().getUsername());
@@ -55,8 +53,7 @@ public class BookController {
     }
 
     @GetMapping(value = "/{id}")
-    @ResponseBody
-    @ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
+    @ResponseStatus(HttpStatus.OK)
     public BookDto getBook(@PathVariable("id") Integer id) {
         return convertToDto(bookService.getBookById(id));
     }
@@ -71,7 +68,7 @@ public class BookController {
     }
 
     @DeleteMapping(value = "/{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @ApiOperation(value = "", authorizations = { @Authorization(value="jwtToken") })
     public void deleteBook(@PathVariable("id") Integer id) {
         LOGGER.info("User {} DELETE /book/{}",  LoginUser.get().getUsername(), id);

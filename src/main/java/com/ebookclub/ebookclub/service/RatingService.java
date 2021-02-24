@@ -50,10 +50,10 @@ public class RatingService {
             rating.setRank(ratingDto.getRank());
             rating.setComment(ratingDto.getComment());
             rating.setReadStatus(ratingDto.getRead());
-            LOGGER.info("Rating for book {} of user {} already existed", bookId, ratingDto.getRankerId());
+            LOGGER.info("Rating for book {} of user {} already existed", bookId, LoginUser.get().getId());
             return ratingRepo.save(rating);
         } catch (NoSuchElementException e) {
-            LOGGER.info("Create Rating for book {} of user {}", bookId, ratingDto.getRankerId());
+            LOGGER.info("Create Rating for book {} of user {}", bookId, LoginUser.get().getId());
         }
         return ratingRepo.save(new Rating(bookService.verifyBook(bookId), LoginUser.get(), ratingDto.getComment(), ratingDto.getRank(), ratingDto.getRead()));
     }
@@ -62,7 +62,6 @@ public class RatingService {
      * Get a page of book ratings for a book.
      *
      * @param bookId   book identifier
-     * @param pageable page parameters to determine which elements to fetch
      * @return Page of BookRatings
      * @throws NoSuchElementException if no Book found.
      */
@@ -78,7 +77,7 @@ public class RatingService {
      * @throws NoSuchElementException if no Book found.
      */
     public Rating update(RatingDto ratingDto, Integer bookId) throws NoSuchElementException {
-        LOGGER.info("Update  Rating for book {} of user {}", bookId, ratingDto.getRankerId());
+        LOGGER.info("Update  Rating for book {} of user {}", bookId, LoginUser.get().getId());
         Rating rating = verifyBookAndUser(bookService.verifyBook(bookId), LoginUser.get());
         rating.setRank(ratingDto.getRank());
         rating.setComment(ratingDto.getComment());
@@ -94,7 +93,7 @@ public class RatingService {
      */
     public Rating updateSome(RatingDto ratingDto, Integer bookId)
             throws NoSuchElementException {
-        LOGGER.info("Update read status for book {} of user {}", bookId, ratingDto.getRankerId());
+        LOGGER.info("Update read status for book {} of user {}", bookId, LoginUser.get().getId());
         Rating rating = verifyBookAndUser(bookService.verifyBook(bookId), LoginUser.get());
         if (ratingDto.getRank() != null) {
             rating.setRank(ratingDto.getRank());
@@ -112,11 +111,10 @@ public class RatingService {
      * Delete a Book Rating.
      *
      * @param bookId book identifier
-     * @param userId customer identifier
      * @throws NoSuchElementException if no Book found.
      */
-    public void delete(int bookId, Integer userId) throws NoSuchElementException {
-        LOGGER.info("Delete Rating for book {} and user {}", bookId, userId);
+    public void delete(int bookId) throws NoSuchElementException {
+        LOGGER.info("Delete Rating for book {} and user {}", bookId, LoginUser.get().getId());
         Rating rating = verifyBookAndUser(bookService.verifyBook(bookId), LoginUser.get());
         ratingRepo.delete(rating);
     }
