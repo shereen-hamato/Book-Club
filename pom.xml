@@ -11,6 +11,7 @@
 	<groupId>com.ebookclub</groupId>
 	<artifactId>ebookclub</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>ebookclub</name>
 	<description>e-book club api for book lovers</description>
 	<properties>
@@ -72,6 +73,15 @@
 			<version>1.24</version>
 			<scope>test</scope>
 		</dependency>
+
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<!-- change here -->
+				<version>4.12</version>
+				<scope>test</scope>
+			</dependency>
+
 
 		<dependency>
 			<!-- JSON Web Token Support -->
